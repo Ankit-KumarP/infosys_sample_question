@@ -8,24 +8,34 @@
 // Explanation: All possible arrays are: [1, 1], [1, 2], [1, 3], [2, 2], [3, 3]
 package infosys;
 
-public class Birthdaygift {
+import java.util.*;
+import java.lang.*;
 
-    // birthdayGift
-    public static int uniqueArray(int n, int k) {
+public class Q01Birthdaygift {
+
+    // Logic:
+    // (I) totalArrays(n,k) = totalArrays(n, k - mid) + count(n,mid);
+    // (II) count is a methode that give out put when 'k' is <=2;
+    // T = O(n^2logk)
+
+    // totalArrays
+    static int totalArrays(int n, int k) {
 
         if (k == 1)
             return n;
-        if (k == 2)
+        else if (k == 2)
             return count(n, k);
 
-        int first = uniqueArray(n, k / 2);
-        int second = uniqueArray(n, n - k / 2);
+        int mid = k / 2;
+        int first = (totalArrays(n, k - mid)) % 10000;
+        int second = (count(n, mid)) % 10000;
 
-        return first + second - 1;
+        return (first + second - 1) % 10000;
+
     }
 
     // count
-    public static int count(int n, int k) {
+    static int count(int n, int k) {
 
         if (k == 1)
             return n;
@@ -38,8 +48,7 @@ public class Birthdaygift {
             }
         }
 
-        return count;
-
+        return count % 10000;
     }
 
     public static void main(String[] args) {
@@ -47,17 +56,20 @@ public class Birthdaygift {
         // int n = 3;
         // int k = 2; // 5;
 
-        int n = 2;
-        int k = 1; // 2
+        // int n = 2;
+        // int k = 1; // 2
 
         // int n = 2;
         // int k = 2;// 3
 
-        int ans = uniqueArray(n,k);
+        int n = 46;
+        int k = 19; // 786
+
+        int dp[] = new int[k + 1];
+        Arrays.fill(dp, -1);
+        int ans = totalArrays(n, k);
+        System.out.println();
         System.out.println(ans);
 
-        
-
-         
     }
 }
